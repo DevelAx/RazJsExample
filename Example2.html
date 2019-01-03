@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>RazJS library test - #2</title>
+    <script src="node_modules/razjs/raz.js"></script>
+    <script type="text/javascript">
+        window.addEventListener('error', function (e) {
+            if (!e.error.isRazorError) return;
+            setTimeout(() => {
+                // The document have to be fully loaded before replacing its whole content - that's why we use timer.
+                document.documentElement.innerHTML = e.error.html();
+            }, 0);
+            e.preventDefault(); // Stop propagating since we've handled it.
+        });
+
+        try{
+            const num = 1;
+            const template = "<div>@Model</span>";
+            const html = raz.render(template, num);
+            document.getElementById("target").innerHTML = html;
+        }
+        catch(exc){
+            // WARN: we wouldn't need re-throwing this error if the page were requested from the server. 
+            // But since it's run from the local file it violates the browser's same-origin policy and we have to wrap it with the `try/catch` and throw again as if it were thrown from this place.
+            throw exc; 
+        }
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>
