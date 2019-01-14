@@ -9,10 +9,9 @@
     <script src="node_modules/razjs/raz.js"></script>
     <script type="text/javascript">
         window.addEventListener('error', function (e) {
-            if (!e.error.isRazorError) return;
             setTimeout(() => {
                 // The document have to be fully loaded before replacing its whole content - that's why we use timer.
-                document.documentElement.innerHTML = e.error.html();
+                document.documentElement.innerHTML = (e.error.isRazorError) ? e.error.html() : e.error.toString();
             }, 0);
             e.preventDefault(); // Stop propagating since we've handled it.
         });
@@ -20,6 +19,7 @@
         try{
             const num = 1;
             const template = "<div>@Model</span>";
+            raz.debug = true;
             const html = raz.render(template, num);
             document.getElementById("target").innerHTML = html;
         }

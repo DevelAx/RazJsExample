@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "razjs": "0.0.1"
+    "razjs": "^1.2.0"
   }
 }
